@@ -1,0 +1,28 @@
+#!/bin/bash
+
+build_dir=$1
+# cache_dir=$2
+env_dir=$3
+
+ENV_VAR_NAME="HTPASSWD"
+HTPASSWD_FILE_NAME="config/.htpasswd"
+
+set -e
+
+if [[ ! -f "$env_dir/$ENV_VAR_NAME" ]]; then
+  echo "$ENV_VAR_NAME env var not defined. Skipping htpasswd creation."
+  exit 0
+fi
+
+echo "-----> Writing htpasswd file"
+rm -f "$build_dir/$HTPASSWD_FILE_NAME"
+
+CONTENT="$(cat "$env_dir/$ENV_VAR_NAME")"
+IFS=';' read -ra CREDENTIALS <<< "$CONTENT"
+
+for entry in "${CREDENTIALS[@]}"; do
+  echo "$entry" >> "$HTPASSWD_FILE_NAME"
+done
+
+echo "       htpasswd file written to disk"
+exit 0

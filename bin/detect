@@ -1,0 +1,10 @@
+#!/bin/bash
+
+build_dir=$1
+
+if [[ -f "$build_dir/config/nginx.conf.erb" ]]; then
+  echo "Nginx config found. Creating htpasswd file"
+  exit 0
+else
+  exit 1
+fi
