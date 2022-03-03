@@ -5,7 +5,7 @@ build_dir=$1
 env_dir=$3
 
 ENV_VAR_NAME="HTPASSWD"
-HTPASSWD_FILE_NAME="config/.htpasswd"
+HTPASSWD_FILE="$build_dir/config/.htpasswd"
 
 set -e
 
@@ -15,13 +15,13 @@ if [[ ! -f "$env_dir/$ENV_VAR_NAME" ]]; then
 fi
 
 echo "-----> Writing htpasswd file"
-rm -f "$build_dir/$HTPASSWD_FILE_NAME"
+rm -f "$HTPASSWD_FILE"
 
 CONTENT="$(cat "$env_dir/$ENV_VAR_NAME")"
 IFS=';' read -ra CREDENTIALS <<< "$CONTENT"
 
 for entry in "${CREDENTIALS[@]}"; do
-  echo "$entry" >> "$HTPASSWD_FILE_NAME"
+  echo "$entry" >> "$HTPASSWD_FILE"
 done
 
 echo "       htpasswd file written to disk"
