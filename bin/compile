@@ -5,7 +5,7 @@ build_dir=$1
 env_dir=$3
 
 ENV_VAR_NAME="HTPASSWD"
-HTPASSWD_FILE="$build_dir/config/.htpasswd"
+HTPASSWD_FILE="$build_dir/.htpasswd"
 
 set -e
 
